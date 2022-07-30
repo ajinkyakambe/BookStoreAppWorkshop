@@ -15,6 +15,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/api/bookservice")
 @Slf4j
 public class BookDetailsController {

@@ -53,9 +53,9 @@ public class BookDetailsService implements IBookDetailsService {
         if (isPresent.isPresent()) {
             BookDetailsData bookAdded = new BookDetailsData(bookDto);
             bookRepo.save(bookAdded);
-            mailService.sendEmail("ajinkyakambe@gmail.com", "Book Details", "Added SuccessFully,\nBook Name: "
-                    + bookDto.getBookName()+ "\nBook Author - " + bookDto.getBookAuthor() + "\nBook Price - " + bookDto.getBookPrice() +
-                    "\nQuantity - "+ bookDto.getBookQuantity());
+            // mailService.sendEmail("ajinkyakambe@gmail.com", "Book Details", "Added SuccessFully,\nBook Name: "
+            //         + bookDto.getBookName()+ "\nBook Author - " + bookDto.getBookAuthor() + "\nBook Price - " + bookDto.getBookPrice() +
+            //         "\nQuantity - "+ bookDto.getBookQuantity());
             return bookAdded;
         }
         return null;

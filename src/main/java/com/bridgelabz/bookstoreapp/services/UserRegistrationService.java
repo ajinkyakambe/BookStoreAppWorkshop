@@ -131,7 +131,7 @@ public class UserRegistrationService implements IUserRegistrationService{
     public String getToken(String email) {
         Optional<UserRegistrationData> userRegistration=userRepo.findByEmailId(email);
         String token=tokenUtil.createToken(userRegistration.get().getUserId());
-        mailService.sendEmail("ajinkyakambe@gmail.com","Welcome User:  "+userRegistration.get().getFirstName(),"Token for changing password is :"+token);
+        // mailService.sendEmail("ajinkyakambe@gmail.com","Welcome User:  "+userRegistration.get().getFirstName(),"Token for changing password is :"+token);
         return token;
     }
 

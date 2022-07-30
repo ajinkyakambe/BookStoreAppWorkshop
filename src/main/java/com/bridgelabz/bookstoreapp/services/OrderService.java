@@ -42,9 +42,13 @@ public class OrderService implements IOrderService {
     EmailSMTP mailService;
 
 
+orderdto.map(itemsingle)
+
 
     @Override
-    public String insertOrder(OrderDTO orderdto) {
+    public OrderData insertOrder(OrderDTO orderdto) {
+        System.out.println(orderdto);
+       
         ArrayList<BookDetailsData> bookList = new ArrayList<>();
         Optional<BookDetailsData> book = bookRepo.findById(orderdto.getBookId());
         Optional<UserRegistrationData> user = userRepo.findById(orderdto.getUserId());
@@ -55,12 +59,11 @@ public class OrderService implements IOrderService {
             orderRepo.save(newOrder);
             log.info("Order record inserted successfully");
             String token = tokenUtil.createToken(newOrder.getId());
-            mailService.sendEmail("ajinkyakambe@gmail.com", "Order Details", "Order Confirmed,\nOrderId- "
-                    + newOrder.getId() + "\nOrder placed on - " + orderdto.getOrderDate() + " for bookId - " + orderdto.getBookId() +".\nShipping to address - "+ orderdto.getAddress()
-                    +  ".\nTotal price need to pay " + totalPrice +"\nBook Names - " + nameList);
-            log.info("Order record inserted successfully");
-            return token;
-            //return newOrder;
+            // mailService.sendEmail("ajinkyakambe@gmail.com", "Order Details", "Order Confirmed,\nOrderId- "
+            //         + newOrder.getId() + "\nOrder placed on - " + orderdto.getOrderDate() + " for bookId - " + orderdto.getBookId() +".\nShipping to address - "+ orderdto.getAddress()
+            //         +  ".\nTotal price need to pay " + totalPrice +"\nBook Names - " + nameList);
+            // return token;
+            return newOrder;
         } else {
             throw new UserRegistrationException("Requested quantity is out of stock");
         }

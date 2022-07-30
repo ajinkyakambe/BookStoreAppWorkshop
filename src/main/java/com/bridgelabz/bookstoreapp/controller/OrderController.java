@@ -29,9 +29,9 @@ public class OrderController  {
      */
     @PostMapping("/insert")
     public ResponseEntity<ResponseDTO> insertOrder(@RequestBody OrderDTO orderdto){
-        String newOrder = orderService.insertOrder(orderdto);
+        OrderData newOrder = orderService.insertOrder(orderdto);
         ResponseDTO dto = new ResponseDTO("Order place successfully !",newOrder);
-        return new ResponseEntity(dto, HttpStatus.CREATED);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     /**
@@ -43,7 +43,7 @@ public class OrderController  {
     public ResponseEntity<ResponseDTO> getAllOrderRecords(){
         List<OrderData> newOrder = orderService.getAllOrders();
         ResponseDTO dto = new ResponseDTO("All records retrieved successfully !",newOrder);
-        return new ResponseEntity(dto,HttpStatus.OK);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
     /**
@@ -55,7 +55,7 @@ public class OrderController  {
     public ResponseEntity<ResponseDTO> getBookRecordById(@PathVariable Integer id){
         OrderData newOrder = orderService.getOrderById(id);
         ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newOrder);
-        return new ResponseEntity(dto,HttpStatus.OK);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
     /**

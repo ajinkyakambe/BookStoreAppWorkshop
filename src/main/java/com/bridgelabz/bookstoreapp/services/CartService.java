@@ -2,6 +2,7 @@ package com.bridgelabz.bookstoreapp.services;
 
 import com.bridgelabz.bookstoreapp.dto.CartDTO;
 import com.bridgelabz.bookstoreapp.dto.ResponseDTO;
+import com.bridgelabz.bookstoreapp.exception.CartException;
 import com.bridgelabz.bookstoreapp.exception.UserRegistrationException;
 import com.bridgelabz.bookstoreapp.model.BookDetailsData;
 import com.bridgelabz.bookstoreapp.model.CartData;
@@ -58,22 +59,27 @@ public class CartService implements ICartService {
      * - Ability to get all cart' data by findAll() method
      * */
     @Override
-    public ResponseDTO getCartDetails() {
-        List<CartData> getCartDetails=bookStoreCartRepository.findAll();
-        ResponseDTO dto= new ResponseDTO();
-        if (getCartDetails.isEmpty()){
-            String   message=" Not found Any Cart details ";
-            dto.setMessage(message);
-            dto.setData(0);
-            return dto;
-
-        }
-        else {
-            dto.setMessage("the list of cart items is sucessfully retrived");
-            dto.setData(getCartDetails);
-            return dto;
-        }
+    public List<CartData> getCartDetails() {
+        List<CartData> cart = bookStoreCartRepository.findAll();
+        return cart;
     }
+    
+    // public List<CartData> getCartDetails() {
+    //     List<CartData> getCartDetails=bookStoreCartRepository.findAll();
+    //     ResponseDTO dto= new ResponseDTO();
+    //     if (getCartDetails.isEmpty()){
+    //         String   message=" Not found Any Cart details ";
+    //         dto.setMessage(message);
+    //         dto.setData(0);
+    //         return dto;
+
+    //     }
+    //     else {
+    //         dto.setMessage("the list of cart items is sucessfully retrived");
+    //         dto.setData(getCartDetails);
+    //         return dto;
+    //     }
+    // }
     /**
      * created a method name as getCartDetailsById
      * - Ability to get cart data by cartId*/
@@ -128,6 +134,42 @@ public class CartService implements ICartService {
         }
 
     }
+    @Override
+    public List<CartData> deleteAllFromCart() {
+        bookStoreCartRepository.deleteAll();
+        return bookStoreCartRepository.findAll();
+    }
+    @Override
+    public CartData decreaseQuantity(Integer cartId) {
+        Optional<CartData> cart = bookStoreCartRepository.findById(cartId);
+        Optional<BookDetailsData> book = bookStoreRepository.findById(cart.get().getBook().getBookId());
 
+        if (cart.get().getQuantity() > 0) {
+            cart.get().setQuantity(cart.get().getQuantity() - 1);
+            bookStoreCartRepository.save(cart.get());
+            log.info("Quantity in cart record updated successfully");
+            book.get().setBookQuantity(book.get().getBookQuantity() + 1);
+            bookStoreRepository.save(book.get());
+            return cart.get();
+        } else {
+            throw new CartException("Cart is empty");
+        }
+    }
+    @Override
+    public CartData increaseQuantity(Integer cartId) {
+        Optional<CartData> cart = bookStoreCartRepository.findById(cartId);
+        Optional<BookDetailsData> book = bookStoreRepository.findById(cart.get().getBook().getBookId());
+        if (book.get().getBookQuantity() >= 1) {
+            cart.get().setQuantity(cart.get().getQuantity() + 1);
+            bookStoreCartRepository.save(cart.get());
+            log.info("Quantity in cart record updated successfully");
+            book.get().setBookQuantity(book.get().getBookQuantity() - 1);
+            bookStoreRepository.save(book.get());
+            return cart.get();
+            } else {
+                throw new CartException("Requested quantity is not available");
+            }
+        }
+   
 }
 

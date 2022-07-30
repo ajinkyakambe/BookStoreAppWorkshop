@@ -21,7 +21,6 @@ public class OrderData {
     private Integer quantity;
     private String address;
 
-
     @OneToOne
     @JoinColumn(name="user_id")
     private UserRegistrationData userId;
@@ -37,8 +36,9 @@ public class OrderData {
         this.price =  price;
         this.quantity = quantity;
         this.address = address;
-        this.bookId = book;
         this.userId = user;
+        this.bookId = book;
+        
 
 
     }

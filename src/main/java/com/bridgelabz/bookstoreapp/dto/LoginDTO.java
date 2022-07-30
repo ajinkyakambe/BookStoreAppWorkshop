@@ -16,7 +16,7 @@ public class LoginDTO {
 
     public LoginDTO(String email, String password) {
         this.email = email;
-        this.password = password;
+        this.password = password;        
     }
 
 }

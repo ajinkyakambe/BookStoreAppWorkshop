@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/api/cart")
 public class CartController {
 
@@ -41,10 +43,12 @@ public class CartController {
      *@return : ResponseEntity of getAllCartDetails
      */
     @GetMapping("/getAll")
-    public ResponseDTO getAllCartDetails() {
-        ResponseDTO responseDTO = cartService.getCartDetails();
-        return responseDTO;
+    public ResponseEntity<ResponseDTO> getAllCartDetails() {
+        List<CartData> newCart = cartService.getCartDetails();
+        ResponseDTO responseDTO = new ResponseDTO("All records retrieved successfully !", newCart);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
+
 
     /**
      * Ability to call api to retrieve cart record by cartId
@@ -80,5 +84,25 @@ public class CartController {
         Optional<CartData> delete = cartService.deleteCartItemById(cartId);
         ResponseDTO responseDTO = new ResponseDTO("Cart delete successfully", delete);
         return new ResponseEntity(responseDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteall")
+    public ResponseEntity<ResponseDTO> deleteBooks() {
+        List<CartData> books = cartService.deleteAllFromCart();
+        return new ResponseEntity(books, HttpStatus.OK);
+    }
+
+    @GetMapping("/decreaseQuantity/{cartID}")
+    public ResponseEntity<ResponseDTO> decreaseQuantity(@PathVariable Integer cartID) {
+        CartData newCart = cartService.decreaseQuantity(cartID);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newCart);
+        return new ResponseEntity(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/increaseQuantity/{cartID}")
+    public ResponseEntity<ResponseDTO> increaseQuantity(@PathVariable Integer cartID) {
+        CartData newCart = cartService.increaseQuantity(cartID);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newCart);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 }

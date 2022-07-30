@@ -58,9 +58,9 @@ public class UserRegistrationService implements IUserRegistrationService{
             userData.createUser(userDTO);
             userRepo.save(userData);
             token = tokenUtil.createToken(userData.getUserId());
-            mailService.sendEmail(userData .getEmail(), "Test Email", "Registered SuccessFully, hii: "
-                    + userData.getFirstName() + "Please Click here to get data-> "
-                    + mailService.getLink(token));
+            // mailService.sendEmail(userData .getEmail(), "Test Email", "Registered SuccessFully, hii: "
+            //         + userData.getFirstName() + "Please Click here to get data-> "
+            //         + mailService.getLink(token));
             return token;
         }
     }
@@ -85,9 +85,9 @@ public class UserRegistrationService implements IUserRegistrationService{
         Optional<UserRegistrationData> isContactPresent = userRepo.findById(id);
         if (isContactPresent.isPresent()) {
             List<UserRegistrationData> listOfUsers = userRepo.findAll();
-            mailService.sendEmail("ajinkyakambe@gmail.com", "Test Email", "Get your data with this token, hii!!!: "
-                    +isContactPresent.get().getEmail()+"Please Click here to get data-> "
-                    +mailService.getLink(token));
+            // mailService.sendEmail("ajinkyakambe@gmail.com", "Test Email", "Get your data with this token, hii!!!: "
+            //         +isContactPresent.get().getEmail()+"Please Click here to get data-> "
+            //         +mailService.getLink(token));
             return listOfUsers;
         } else {
             System.out.println("Exception, Token not found!");
@@ -115,8 +115,8 @@ public class UserRegistrationService implements IUserRegistrationService{
             if (pwd.equals(loginDto.getPassword())) {
                 dto.setMessage("login successful ");
                 dto.setData(login.get());
-                mailService.sendEmail("ajinkyakambe@gmail.com", "Login Success", "LoggedIn User Details,\nUserEmail- "
-                        + userRepo.findByEmailId(loginDto.getEmail()));
+                // mailService.sendEmail("ajinkyakambe@gmail.com", "Login Success", "LoggedIn User Details,\nUserEmail- "
+                //         + userRepo.findByEmailId(loginDto.getEmail()));
                 return dto;
             } else {
                 dto.setMessage("Sorry! login is unsuccessful");

@@ -6,7 +6,7 @@ import com.bridgelabz.bookstoreapp.model.OrderData;
 import java.util.List;
 
 public interface IOrderService {
-    public String insertOrder(OrderDTO orderdto);
+    public OrderData insertOrder(OrderDTO orderdto);
 
     public List<OrderData> getAllOrders();
 

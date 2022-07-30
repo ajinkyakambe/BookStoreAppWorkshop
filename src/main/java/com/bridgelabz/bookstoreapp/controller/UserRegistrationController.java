@@ -21,6 +21,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/api/userservice")
 @Slf4j
 public class UserRegistrationController {
